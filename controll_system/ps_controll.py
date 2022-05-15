@@ -1,5 +1,5 @@
 import pygame
-import rover_nav
+import motor_controls
 pygame.init()
 j = pygame.joystick.Joystick(0)
 j.init()
@@ -10,15 +10,16 @@ try:
             if event.type == pygame.JOYBUTTONDOWN: #if pressed
                 val_pressed = event.button
                 if val_pressed == 2:
-                    rover_nav.rover_forward()
+                    motor_controls.forward()
                 elif val_pressed == 0:
-                    rover_nav.rover_backward()
+                    motor_controls.backward()
                 elif val_pressed == 3:
-                    rover_nav.rover_left_rotation()
+                    motor_controls.left_rotation()
                 elif val_pressed == 1:
-                    rover_nav.rover_right_rotation()
+                    motor_controls.right_rotation()
             elif event.type == pygame.JOYBUTTONUP: #if released
-                rover_nav.rover_halt()
+                motor_controls.halt()
 except KeyboardInterrupt:
+    print("Controller Disconnected")
     print("EXITING NOW")
     j.quit()

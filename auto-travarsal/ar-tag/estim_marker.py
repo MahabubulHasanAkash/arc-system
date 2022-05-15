@@ -11,11 +11,14 @@ show_cam = True
 marker_length = .18
 font = cv2.FONT_HERSHEY_SIMPLEX
 #load camera calibration
-if not os.path.exists('./calibration/CameraCalibration.pckl'):
-    print("Claibrate file not found")
+calibration_path = './auto-travarsal/ar-tag/calibration/CameraCalibration.pckl'
+
+# Check for camera calibration data
+if not os.path.exists(calibration_path):
+    print("You need to calibrate the camera you'll be using. See calibration project directory for details.")
     exit()
 else:
-    f = open('./calibration/CameraCalibration.pckl', 'rb')
+    f = open(calibration_path, 'rb')
     (mtx, dist, _, _) = pickle.load(f,encoding='bytes')
     f.close()
     if mtx is None or dist is None:
@@ -75,26 +78,26 @@ def QuaternionToDegrees(rvecs):
 
 
 if __name__ == '__main__':
-    video = cv2.VideoCapture(2)
+   
+    video = cv2.VideoCapture(0)
     video.set(cv2.CAP_PROP_AUTOFOCUS, 0)
     video.set(3, 640)
     video.set(4, 480)
-
+    halt_flag = 0
+    right_flag = 0
+    forward_flag = 0
+    found_flag = 0
     while True:
         ret, frame = video.read()
         if ret:
             corners, markers  = getMarkerLocations(frame)
             if len(markers):
+               
                 m = markers[0]
                 tcam, rcam = coordinateTransform(m["tvect"], m["rvect"])
                 degrees = QuaternionToDegrees(rcam)
-                x = math.floor(tcam[2])
-                y = math.floor(tcam[2])
-                z = math.floor(tcam[2])
-                print(x)
-                tvec_string = "x :%4.0fm  y :%4.0fm z :%4.0fm   pitch :%4.0fdeg roll :%4.0fdeg yaw :%4.0f "%(x,y,z,degrees[0],degrees[1],degrees[2])
-                print(tvec_string)
-
+                cam_pos_str = (tcam[0], tcam[1], tcam[2], degrees[0], degrees[1], degrees[2])
+                print(cam_pos_str)
 
         if cv2.waitKey(1) == ord('q'):
             video.release()

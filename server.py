@@ -1,7 +1,7 @@
 import connection
 def main():
     print("....")
-    print("server started")
+    print("server started at",connection.ipv4)
 
     while True:
         try:

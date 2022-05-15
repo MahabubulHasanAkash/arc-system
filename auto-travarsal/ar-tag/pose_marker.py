@@ -5,17 +5,19 @@ import os
 import pickle
 import math
 
+calibration_path = './auto-travarsal/ar-tag/calibration/CameraCalibration.pckl'
 
 # Check for camera calibration data
-if not os.path.exists('./calibration/CameraCalibration.pckl'):
+if not os.path.exists(calibration_path):
     print("You need to calibrate the camera you'll be using. See calibration project directory for details.")
     exit()
+
 else:
-    f = open('./calibration/CameraCalibration.pckl', 'rb')
+    f = open(calibration_path, 'rb')
     (cameraMatrix, distCoeffs, _, _) = pickle.load(f,encoding='bytes')
     f.close()
     if cameraMatrix is None or distCoeffs is None:
-        print("Calibration issue. Remove ./calibration/CameraCalibration.pckl and recalibrate your camera with calibration_ChAruco.py.")
+        print("Calibration issue. Remove calibration/CameraCalibration.pckl and recalibrate your camera with calibration_ChAruco.py.")
         exit()
 
 def isRotationMatrix(R) :
@@ -41,7 +43,7 @@ def rotationMatrixToEulerAngles(R) :
     return np.array([x, y, z])
 
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
 cap.set(3, 640)
 cap.set(4, 480)
@@ -91,7 +93,7 @@ while (True):
                 x_dist = math.floor(realworld_tvec[1])
                 deg = math.degrees(yaw)
     else:
-        # code to show 'No Ids' when no markers are found
+        # 'No Ids' when no markers are found
         cv2.putText(frame, "No Ids", (0,64), font, 1, (0,255,0),2,cv2.LINE_AA)
     # display the resulting frame
     cv2.imshow('frame',frame)

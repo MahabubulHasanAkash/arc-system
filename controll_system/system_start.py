@@ -1,7 +1,3 @@
-import connection
-import keyboard
-import ps_controll
-import bt_controll
 import motor_controls
 
 def main():
