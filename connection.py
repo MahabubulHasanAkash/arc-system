@@ -19,5 +19,10 @@ def socket_conn():
     return sk
 
 def arduino_conn():
-    ard_conn = serial.Serial("/dev/ttyACM0", 9600)
-    return ard_conn
+    try:
+        ard_conn = serial.Serial("/dev/ttyACM0", 9600)
+        return ard_conn
+    except Exception as e:
+        print('Faield connecting to the arduino Port...',e)
+        print('Exiting...')
+

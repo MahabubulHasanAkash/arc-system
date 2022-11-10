@@ -1,0 +1,5 @@
+env/
+*.env
+*.h5
+*.pyc
+*__PyCache__/

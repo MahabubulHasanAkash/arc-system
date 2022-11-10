@@ -1,5 +1,4 @@
 import connection
-
 def forward():
     conn = connection.socket_conn()
     conn.send('w'.encode('utf-8'))
