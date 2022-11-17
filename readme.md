@@ -1,4 +1,4 @@
-# ARC SYSTEM , Mars Society: University Rover Challenge 2022
+# AIUB Robotic Crew - SYSTEM 
 
 ## Features
 
